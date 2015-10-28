@@ -6,6 +6,8 @@ DEV_STAMP = $(VENV)/.dev_env_installed.stamp
 INSTALL_STAMP = $(VENV)/.install.stamp
 TEMPDIR := $(shell mktemp -d)
 
+BLOCKLIST_FILE_URL = "https://blocklist.addons.mozilla.org/blocklist/0/default/default/default/default/default/default/default/default/default/default/default/default/default/"
+
 .IGNORE: clean distclean maintainer-clean
 .PHONY: all install install-dev virtualenv tests
 
@@ -49,3 +51,6 @@ maintainer-clean: distclean
 
 sync: install
 	$(VENV)/bin/xml2kinto
+
+update-blocklist-file:
+	wget -O blocklist.xml $(BLOCKLIST_FILE_URL)
