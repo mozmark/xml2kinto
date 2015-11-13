@@ -83,7 +83,7 @@ class TestKintoRecords:
                              'collection_name': 'blocklist',
                              'permissions': {"read": ["system.Everyone"]}})
             mocked_client.return_value.create_collection. \
-                assert_called_with('blocklist',
+                assert_called_with('blocklist', data={"schema": {}},
                                    permissions={"read": ["system.Everyone"]})
 
     def test_can_delete_records(self):
