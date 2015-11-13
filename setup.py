@@ -1,10 +1,13 @@
 import codecs
 import os
+import sys
+
 from setuptools import setup, find_packages
 
-here = os.path.abspath(os.path.dirname(__file__))
+PY2 = sys.version_info[0] == 2
+HERE = os.path.abspath(os.path.dirname(__file__))
 
-with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+with codecs.open(os.path.join(HERE, 'README.rst'), encoding='utf-8') as f:
     README = f.read()
 
 
@@ -12,6 +15,14 @@ REQUIREMENTS = [
     'kinto-client >= 0.2',  # kintoclient was renamed kinto_client
     'six',
 ]
+
+if PY2:
+    # Add OpenSSL dependencies to handle requests warning.
+    REQUIREMENTS.append([
+        "pyopenssl",
+        "ndg-httpsclient",
+        "pyasn1"
+    ])
 
 
 ENTRY_POINTS = {

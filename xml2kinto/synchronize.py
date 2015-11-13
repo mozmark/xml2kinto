@@ -15,8 +15,8 @@ def synchronize(fields, xml_options, kinto_options):
     to_update = []
     to_create = []
 
-    print('Syncing to %s%s/records' % (kinto_options['server'],
-                                       kinto_options['collection_name']))
+    print('Syncing to %s%s' % (kinto_options['server'],
+                               kinto.client._get_endpoint("records")))
 
     # looking at kinto to list records
     # to delete or to update

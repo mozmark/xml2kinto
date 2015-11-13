@@ -1,5 +1,6 @@
-import os
 import argparse
+import os
+import json
 
 from xml2kinto.synchronize import synchronize
 
@@ -12,6 +13,9 @@ bucket_name = u'onecrl'
 collection_name = u'blocklist'
 kinto_server = 'http://localhost:8888/v1'
 fields = ('subject', 'publicKeyHash', 'serialNumber', 'issuerName')
+with open(os.path.join(os.path.dirname(__file__),
+                       '..', 'schemas', 'certificates.json')) as f:
+    collection_schema = json.loads(f.read())
 
 
 def main(args=None):
@@ -34,6 +38,7 @@ def main(args=None):
                     'server': args.kinto_server,
                     'bucket_name': bucket_name,
                     'collection_name': collection_name,
+                    'collection_schema': collection_schema,
                     'auth': tuple(args.auth.split(':')),
                     'permissions': collection_permissions
                 })

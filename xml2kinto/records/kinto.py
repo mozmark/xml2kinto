@@ -13,8 +13,10 @@ class KintoRecords(Records):
 
         # Create bucket
         self.client.create_bucket()
-        self.client.create_collection(self.options['collection_name'],
-                                      permissions=self.options['permissions'])
+        self.client.create_collection(
+            self.options['collection_name'],
+            data={"schema": self.options.get('collection_schema', {})},
+            permissions=self.options['permissions'])
 
         return [self._kinto2rec(rec) for rec in
                 self.client.get_records()]
