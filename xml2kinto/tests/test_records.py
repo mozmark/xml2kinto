@@ -86,6 +86,25 @@ class TestKintoRecords:
                 assert_called_with('blocklist', data={"schema": {}},
                                    permissions={"read": ["system.Everyone"]})
 
+    def test_create_collection_with_schema_if_does_not_exists(self):
+        with mock.patch('xml2kinto.records.kinto.Client') as mocked_client:
+            mocked_client.return_value.get_records.return_value = []
+
+            KintoRecords(('issuerName', 'serialNumber'),
+                         options={
+                             'server': 'http://example.com/v1',
+                             'auth': ('user', 'pass'),
+                             'bucket_name': 'onecrl',
+                             'collection_name': 'blocklist',
+                             'collection_schema': {"properties": [],
+                                                   "title": "Foobar"},
+                             'permissions': {"read": ["system.Everyone"]}})
+            mocked_client.return_value.create_collection. \
+                assert_called_with(
+                    'blocklist', data={"schema": {"properties": [],
+                                                  "title": "Foobar"}},
+                    permissions={"read": ["system.Everyone"]})
+
     def test_can_delete_records(self):
         with mock.patch('xml2kinto.records.kinto.Client'):
             records = KintoRecords(('issuerName', 'serialNumber'),
